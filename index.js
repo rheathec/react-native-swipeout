@@ -304,6 +304,10 @@ const Swipeout = React.createClass({
     var isRightVisible = posX < 0;
     var isLeftVisible = posX > 0;
 
+    if(posX){
+      styleContent.push(this.props.swipedStyle);
+    }
+
     return (
       <View style={styleSwipeout}>
         <View
