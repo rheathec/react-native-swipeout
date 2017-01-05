@@ -187,7 +187,6 @@ const Swipeout = React.createClass({
       else if (posX > 0 && this.props.left) {
         if(posX > leftWidth){
           posX = leftWidth;
-          this.broadcast('other-opened')
         }
         this.setState({ contentPos: Math.max(posX, 0) });
       }
@@ -228,6 +227,7 @@ const Swipeout = React.createClass({
         // open swipeout left
         this._tweenContent('contentPos', btnsLeftWidth);
         this.setState({ contentPos: btnsLeftWidth, openedLeft: true, openedRight: false });
+        this.props.onOpening && this.props.onOpening(this.props.myId);
       }
       else {
         // close swipeout
