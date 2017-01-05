@@ -1,7 +1,6 @@
 import tweenState from 'react-tween-state';
 import NativeButton from './NativeButton';
 import styles from './styles';
-import {ReactComponentDecorator} from 'react-component-event';
 
 import React, {
   Component,
@@ -99,11 +98,6 @@ const SwipeoutBtn = React.createClass({
 const Swipeout = React.createClass({
   mixins: [tweenState.Mixin],
 
-  constructor(props) {
-    super(props);
-    ReactComponentDecorator(this);
-  }
-
   propTypes: {
     autoClose: PropTypes.bool,
     backgroundColor: PropTypes.string,
@@ -138,14 +132,6 @@ const Swipeout = React.createClass({
       tweenDuration: 160,
       timeStart: null,
     };
-  },
-
-  componentDidMount: function(){
-    this.on('other-opened', (event, arg) => {
-        this._close();
-    });
-
-
   },
 
   componentWillMount: function() {
