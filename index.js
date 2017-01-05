@@ -1,6 +1,7 @@
 import tweenState from 'react-tween-state';
 import NativeButton from './NativeButton';
 import styles from './styles';
+import {ReactComponentDecorator} from 'react-component-event';
 
 import React, {
   Component,
@@ -16,6 +17,7 @@ import {
 } from 'react-native';
 
 const SwipeoutBtn = React.createClass({
+
 
   propTypes: {
     backgroundColor: PropTypes.string,
@@ -97,6 +99,11 @@ const SwipeoutBtn = React.createClass({
 const Swipeout = React.createClass({
   mixins: [tweenState.Mixin],
 
+  constructor(props) {
+    super(props);
+    ReactComponentDecorator(this);
+  }
+
   propTypes: {
     autoClose: PropTypes.bool,
     backgroundColor: PropTypes.string,
@@ -131,6 +138,14 @@ const Swipeout = React.createClass({
       tweenDuration: 160,
       timeStart: null,
     };
+  },
+
+  componentDidMount: function(){
+    this.on('other-opened', (event, arg) => {
+        this._close();
+    });
+
+
   },
 
   componentWillMount: function() {
@@ -183,7 +198,13 @@ const Swipeout = React.createClass({
     if (this.state.swiping) {
       //  move content to reveal swipeout
       if (posX < 0 && this.props.right) this.setState({ contentPos: Math.min(posX, 0) });
-      else if (posX > 0 && this.props.left) this.setState({ contentPos: Math.max(posX, 0) });
+      else if (posX > 0 && this.props.left) {
+        if(posX > leftWidth){
+          posX = leftWidth;
+          this.broadcast('other-opened')
+        }
+        this.setState({ contentPos: Math.max(posX, 0) });
+      }
     }
   },
 
